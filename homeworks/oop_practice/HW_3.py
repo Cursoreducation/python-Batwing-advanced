@@ -33,14 +33,14 @@ class Human(Person):
 
     def make_money(self):
         self.money = random.randint(300, 900)
-        if self.availability_of_money:
-            print(f"I'm working and I'm making {self.money} dollars per month")
+        if int(self.availability_of_money) <= 200:
+            print(f"I'm running out of money will go to work because I want to make {self.money} dollars per month")
         else:
-            print(f"I have no money ")
+            print(f"I have enough money, I don't need to make money ")
 
     def buy_house(self):
         if self.having_your_own_home:
-            print(f'Hello my name{self.name}, and I have own house')
+            print(f'Hello my name is {self.name}, and I have own house')
         else:
             print(f"I'm homeless, I will buy a house for myself")
 
@@ -65,8 +65,8 @@ class Home(House):
 
     def get_discount(self):
         if int(self.area) <= 40:
-            self.cost *= self.discount
-            print(f"As this is a very small house {self.area} square meters, uou will drop price "
+            self.cost *= self.discount/100
+            print(f"As this is a very small house {self.area} square meters, we will drop price "
                   f"with {self.discount} %, so you will pay {self.cost}")
         else:
             print(f'Sorry.This house doesnt have any discount')
@@ -107,13 +107,13 @@ class Realtor(metaclass=RealtorMeta):
             print(f"I won't steal you money")
 
 
-taras = Human("Jon", "45", "4444", False, True)
+taras = Human("Jon", 34, 4555, 5560, True)
 taras.provide_info()
 taras.make_money()
 taras.buy_house()
 
-beach_house = Home(456, 456000, "Miami", 45, 0.9)
-forest_house = Home(20, 456000, "Wood Street", 45, 0.5)
+beach_house = Home(20, 1000000, "Miami", 45, 50)
+forest_house = Home(20, 100000, "Wood Street", 45, 50)
 beach_house.get_discount()
 forest_house.get_discount()
 
