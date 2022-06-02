@@ -65,7 +65,7 @@ class Home(House):
 
     def get_discount(self):
         if int(self.area) <= 40:
-            self.cost *= self.discount/100
+            self.cost = self.cost - (self.cost * self.discount)/100
             print(f"As this is a very small house {self.area} square meters, we will drop price "
                   f"with {self.discount} %, so you will pay {self.cost}")
         else:
@@ -112,7 +112,7 @@ taras.provide_info()
 taras.make_money()
 taras.buy_house()
 
-beach_house = Home(20, 1000000, "Miami", 45, 50)
+beach_house = Home(20, 3000, "Miami", 45, 20)
 forest_house = Home(20, 100000, "Wood Street", 45, 50)
 beach_house.get_discount()
 forest_house.get_discount()
