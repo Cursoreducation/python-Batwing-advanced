@@ -1,0 +1,4 @@
+1. Move dump school66 to your local mysql database school66
+2. Create table level (В якому класі студент 10, 11) and make relation with students.
+3. Make query which select all students with teacher, levels and lessons
+4. All queries write to the file and attach to trello task
