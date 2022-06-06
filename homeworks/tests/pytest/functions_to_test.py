@@ -1,5 +1,6 @@
 class Calculator:
     """ A simple calculator App"""
+
     @staticmethod
     def add(x, y):
         """Add Function"""
