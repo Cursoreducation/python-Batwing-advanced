@@ -1,0 +1,6 @@
+1. Create flask app with docker and docker-compose
+2. Create route which will display result of adding two variables
+FOR EXAMPLE:
+/add/2/2 - will return 4
+/add/4/1 - will return 5
+/add/5/3 - will return 8
