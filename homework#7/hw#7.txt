@@ -1,0 +1,85 @@
+1. Move dump school66 to your local mysql database school
+
+sudo mysql -u root -p
+CREATE DATABASE school;
+exit;
+
+sudo mysql -u root --password=1 school < school66.sql
+
+------------------------------------------------------------------------------------------
+2. Create table level and make relation with students.
+
+sudo mysql -u root -p
+USE school;
+INSERT INTO students (first_name, last_name) VALUES ("Yurii", "Tsap");
+CREATE TABLE level (id INT PRIMARY KEY AUTO_INCREMENT, level_number INT NOT NULL DEFAULT 1, student_id INT NOT NULL);
+INSERT INTO level (level_number, student_id) VALUES (4, 1), (5,2), (6, 3), (7,4), (8,5);
+
+SELECT s.first_name, s.last_name, l.level_number FROM level l INNER JOIN students s ON l.student_id = s.id; 
+
++------------+-----------+--------------+
+| first_name | last_name | level_number |
++------------+-----------+--------------+
+| Ivan       | Pidhaynuy |            4 |
+| Petro      | Pravdoryb |            5 |
+| Yuriy      | Skobylko  |            6 |
+| Liubomyr   | Luzhnyi   |            7 |
+| Yurii      | Tsap      |            8 |
++------------+-----------+--------------+
+
+
+------------------------------------------------------------------------------------------
+3. Make query which select all students with teacher, levels and lessons
+
+***With create table***
+
+CREATE TABLE student_info (id INT PRIMARY KEY AUTO_INCREMENT, student_id INT NOT NULL, room_id INT NOT NULL, teacher_id INT NOT NULL, lesson_id INT NOT NULL, level_id INT NOT NULL);
+INSERT INTO student_info (student_id, room_id,teacher_id, lesson_id, level_id) VALUES (1,2,1,2,1),(2,3,2,3,2),(3,3,3,4,3);
+
+ALTER TABLE teachers RENAME COLUMN name to teacher_name;
+
+SELECT s.id, s.first_name, s.last_name,lv.level_number, t.teacher_name, r.name, l.name FROM student_info si INNER JOIN students s ON si.student_id = s.id INNER JOIN level
+ lv ON si.level_id=lv.id INNER JOIN teachers t ON si.teacher_id=t.id INNER JOIN rooms r ON si.room_id=r.id INNER JOIN lessons l ON si.lesson_id=l.id;
+
++----+------------+-----------+--------------+----------------------+------------------+----------+
+| id | first_name | last_name | level_number | teacher_name         | name             | name     |
++----+------------+-----------+--------------+----------------------+------------------+----------+
+|  1 | Ivan       | Pidhaynuy |            4 | Margaryta Ivanivna   | Yellow Submarine | Math     |
+|  2 | Petro      | Pravdoryb |            5 | Yulia Liubomyrivna   | Highway to Hello | IT       |
+|  3 | Yuriy      | Skobylko  |            6 | Roskolana Stepanivna | Highway to Hello | Graphity |
++----+------------+-----------+--------------+----------------------+------------------+----------+
+
+***without creating table***
+
+SELECT s.id,s.first_name,s.last_name,lv.level_number,l.id,l.name lesson_name,t.id,t.teacher_name,t.lesson_id FROM students s INNER JOIN level lv ON s.id = lv.student_id INNER JOIN students_lessons sl ON sl.student_id = s.id INNER JOIN lessons l ON sl.lesson_id = l.id INNER JOIN teachers t ON t.lesson_id = sl.lesson_id ORDER BY s.id;
+
++----+------------+-----------+--------------+----+-------------+----+----------------------+-----------+
+| id | first_name | last_name | level_number | id | lesson_name | id | teacher_name         | lesson_id |
++----+------------+-----------+--------------+----+-------------+----+----------------------+-----------+
+|  1 | Ivan       | Pidhaynuy |            4 |  3 | IT          |  2 | Yulia Liubomyrivna   |         3 |
+|  2 | Petro      | Pravdoryb |            5 |  2 | Math        |  1 | Margaryta Ivanivna   |         2 |
+|  2 | Petro      | Pravdoryb |            5 |  1 | Biology     |  3 | Roskolana Stepanivna |         1 |
+|  2 | Petro      | Pravdoryb |            5 |  1 | Biology     |  4 | Kateryna Yuriivna    |         1 |
+|  3 | Yuriy      | Skobylko  |            6 |  2 | Math        |  1 | Margaryta Ivanivna   |         2 |
+|  3 | Yuriy      | Skobylko  |            6 |  1 | Biology     |  3 | Roskolana Stepanivna |         1 |
+|  3 | Yuriy      | Skobylko  |            6 |  1 | Biology     |  4 | Kateryna Yuriivna    |         1 |
+|  4 | Liubomyr   | Luzhnyi   |            7 |  3 | IT          |  2 | Yulia Liubomyrivna   |         3 |
+|  4 | Liubomyr   | Luzhnyi   |            7 |  1 | Biology     |  3 | Roskolana Stepanivna |         1 |
+|  4 | Liubomyr   | Luzhnyi   |            7 |  1 | Biology     |  4 | Kateryna Yuriivna    |         1 |
++----+------------+-----------+--------------+----+-------------+----+----------------------+-----------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

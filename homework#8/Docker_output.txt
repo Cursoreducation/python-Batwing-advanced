@@ -1,0 +1,304 @@
+=================================== 1 ===============================================
+
+local --file
+
+
+1:docker images
+2:docker build . -t simple_flask
+3:docker images
+4:docker run simple_flask
+------OUTPUT---------
+ * Serving Flask app '/app/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:8080
+ * Running on http://172.17.0.2:8080 (Press CTRL+C to quit)
+172.17.0.1 - - [08/Jun/2022 19:14:57] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [08/Jun/2022 19:14:57] "GET /favicon.ico HTTP/1.1" 404 -
+172.17.0.1 - - [08/Jun/2022 19:15:16] "GET /hello HTTP/1.1" 200 -
+
+5:docker run -d simple_flask
+------------OUTPUT------------
+7e95f9fcb4b4db3a746a4690a1ee019423c323737495b9cbf2206db26da6aae7
+
+6:docker run -it simple_flask
+-------------OUTPUT-----------------
+ * Serving Flask app '/app/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:8080
+ * Running on http://172.17.0.3:8080 (Press CTRL+C to quit)
+ 
+ 
+***Change the flask application to print my name and rebuild the image. Run the container again to verify the result. 
+7:docker build . -t simple_flask
+8:docker run simple_flask
+
+
+
+
+local2 --file 
+
+
+1:docker ps
+--------------OUTPUT-----------------
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+40f719b226b4   simple_flask   "/bin/sh -c 'FLASK_A…"   28 seconds ago   Up 27 seconds             reverent_leavitt
+7e95f9fcb4b4   simple_flask   "/bin/sh -c 'FLASK_A…"   2 minutes ago    Up 2 minutes              gifted_fermi
+
+2:docker attach 7e
+3:docker stop 40
+-----------OUTPUT-----------
+40
+4: docker ps
+-----------------OUTPUT--------------
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS     NAMES
+a7c31a44c138   simple_flask   "/bin/sh -c 'FLASK_A…"   8 seconds ago   Up 7 seconds             modest_banzai
+
+5:docker inspect a7
+------------------OUTPUT---------------
+[
+    {
+        "Id": "a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892",
+        "Created": "2022-06-08T19:26:42.47269825Z",
+        "Path": "/bin/sh",
+        "Args": [
+            "-c",
+            "FLASK_APP=/app/app.py flask run --host=0.0.0.0 --port=8080"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 19252,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2022-06-08T19:26:42.96887217Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:59e14f2e00d381fbb4b62277551c1cc93a609f12f17fc6692f40bc481c86e8d1",
+        "ResolvConfPath": "/var/snap/docker/common/var-lib-docker/containers/a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892/resolv.conf",
+        "HostnamePath": "/var/snap/docker/common/var-lib-docker/containers/a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892/hostname",
+        "HostsPath": "/var/snap/docker/common/var-lib-docker/containers/a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892/hosts",
+        "LogPath": "/var/snap/docker/common/var-lib-docker/containers/a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892/a7c31a44c13803baf5052a4f9ea4f5a41aa9fb083190d02f6c5b63c876b36892-json.log",
+        "Name": "/modest_banzai",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/snap/docker/common/var-lib-docker/overlay2/1bc2a841bc5644919fe5288c77b049bda2918307407f7dfec03bfcf85d4882c8-init/diff:/var/snap/docker/common/var-lib-docker/overlay2/0dfea53da57ad1bd89480390bb212850f83ec47f22536efa85ffe740f14f0e03/diff:/var/snap/docker/common/var-lib-docker/overlay2/5892bb42aa441d2139794e739794ea6c685ac81a98940f808e3804a067e9d7ec/diff:/var/snap/docker/common/var-lib-docker/overlay2/b410196508db59ad3e9644c3fe63d5dcf4450a31e540cbdd632083b46eae921a/diff:/var/snap/docker/common/var-lib-docker/overlay2/bd9704237cddc84aa7c3ef2e5a8225c109efc5e91536705ca3878ad01885d0d9/diff",
+                "MergedDir": "/var/snap/docker/common/var-lib-docker/overlay2/1bc2a841bc5644919fe5288c77b049bda2918307407f7dfec03bfcf85d4882c8/merged",
+                "UpperDir": "/var/snap/docker/common/var-lib-docker/overlay2/1bc2a841bc5644919fe5288c77b049bda2918307407f7dfec03bfcf85d4882c8/diff",
+                "WorkDir": "/var/snap/docker/common/var-lib-docker/overlay2/1bc2a841bc5644919fe5288c77b049bda2918307407f7dfec03bfcf85d4882c8/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "a7c31a44c138",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": null,
+            "Image": "simple_flask",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/bin/sh",
+                "-c",
+                "FLASK_APP=/app/app.py flask run --host=0.0.0.0 --port=8080"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "2409d76c91cafb065e00fd8b9d03c76848c941c683e0dcfc01396d1ccceb8a48",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/run/snap.docker/netns/2409d76c91ca",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "e10cb1bf04598c0db0038a90fe73c0c8806668fedbeadd6891c3a537f5deb189",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "977d091835e7df47861e55360ae78cf737f8d1038edb0c012958f921b9451d03",
+                    "EndpointID": "e10cb1bf04598c0db0038a90fe73c0c8806668fedbeadd6891c3a537f5deb189",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+
+6:docker logs a7
+ * Serving Flask app '/app/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:8080
+ * Running on http://172.17.0.2:8080 (Press CTRL+C to quit)
+
+
+=================================== 2 ===============================================
+
+1: docker build . -t simple_flask
+2: docker run -it --name my_story ubuntu
+3: echo "your story" > story.txt
+4: apt-get update
+5: apt-get install cowsay
+6: cat story.txt|./usr/games/cowsay
+
+-----------------OUTPUT-------------------
+
+ ____________
+< your story >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+
+
+

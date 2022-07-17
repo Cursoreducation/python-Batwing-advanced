@@ -1,0 +1,41 @@
+
+.fa_custom {
+color: #0099CC
+}
+.fa_google {
+  background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.fa_facebook {
+  color: #3b5998;
+  background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 93%, transparent 93% );
+  background-size: 55%;
+  background-position: 70% 0;
+  background-repeat: no-repeat;
+}
+.fa {
+     display: flex;
+     padding: .5em .2em;
+     align-items: flex-start;
+}
+.form-control {
+    border: 1px solid black;
+  border-radius: 5px;
+}
+.btn {
+    background-color: transparent;
+    color: black;
+    border: 2px solid #04AA6D;
+    margin-right: 20px;
+    height: 42px;
+}
+.registerbtn {
+    width: 90px;
+}
+.loginbtn {
+    width: 90px;
+    margin-right: 10px;
+}
